@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="columns">
+    <div class="column col-sm-12 col-md-6">
+      <div class="divider text-center" data-content="Person Information"></div>
+      <form [formGroup]="personalInformationForm">
+        <div [ngClass]="{'has-error': personalInformationForm.controls['first_name'].invalid && personalInformationForm.controls['first_name'].touched && personalInformationForm.controls['first_name'].dirty}"
+          class="form-group">
+          <label class="form-label" for="first_name">First Name:</label>
+          <input class="form-input" formControlName="first_name" type="text" id="first_name" placeholder="First Name">
+        </div>
+        <div [ngClass]="{'has-error': personalInformationForm.controls['last_name'].invalid && personalInformationForm.controls['last_name'].touched && personalInformationForm.controls['last_name'].dirty}"
+          class="form-group">
+          <label class="form-label" for="last_name">Last Name:</label>
+          <input class="form-input" formControlName="last_name" type="text" id="last_name" placeholder="Last Name">
+        </div>
+        <div [ngClass]="{'has-error': personalInformationForm.controls['date_of_birth'].invalid && personalInformationForm.controls['date_of_birth'].touched && personalInformationForm.controls['date_of_birth'].dirty}"
+          class="form-group">
+          <label class="form-label" for="date_of_birth">Date of Birth: </label>
+          <input class="form-input" formControlName="date_of_birth" type="date" id="date_of_birth" placeholder="Date of Birth">
+        </div>
+        <div [ngClass]="{'has-error': personalInformationForm.controls['email'].invalid  && personalInformationForm.controls['email'].touched && personalInformationForm.controls['email'].dirty}"
+          class="form-group">
+          <label class="form-label" for="email">E-Mail: </label>
+          <input class="form-input" type="text" formControlName="email" id="email" placeholder="E-Mail">
+        </div>
+      </form>
+
+    </div>
+    <!-- <div class="divider-vert" data-content="AND"></div> -->
+    <div class="column col-sm-12 col-md-6">
+      <div class="divider text-center" data-content="Business Information"></div>
+
+      <form [formGroup]="businessInformationForm">
+        <div [ngClass]="{'has-error': businessInformationForm.controls['business_name'].invalid && businessInformationForm.controls['business_name'].touched && businessInformationForm.controls['business_name'].dirty}"
+          class="form-group">
+          <label class="form-label" for="business_name">Business Name:</label>
+          <input class="form-input" formControlName="business_name" type="text" id="business_name" placeholder="Business Name">
+        </div>
+        <div [ngClass]="{'has-error': businessInformationForm.controls['business_region'].invalid && businessInformationForm.controls['business_region'].touched && businessInformationForm.controls['business_region'].dirty}"
+          class="form-group">
+          <label class="form-label" for="business_region">Business Region:</label>
+          <input class="form-input" formControlName="business_region" type="text" id="business_region" placeholder="Business Region">
+        </div>
+        <div [ngClass]="{'has-error': businessInformationForm.controls['business_city'].invalid && businessInformationForm.controls['business_city'].touched && businessInformationForm.controls['business_city'].dirty}"
+          class="form-group">
+          <label class="form-label" for="business_city">Business City: </label>
+          <input class="form-input" formControlName="business_city" type="text" id="business_city" placeholder="Business City">
+        </div>
+        <div [ngClass]="{'has-error': businessInformationForm.controls['year_established'].invalid && businessInformationForm.controls['year_established'].touched && businessInformationForm.controls['year_established'].dirty}"
+          class="form-group">
+          <label class="form-label" for="year_established">Established on: </label>
+          <input class="form-input" formControlName="year_established" type="date" id="year_established" placeholder="Established On">
+        </div>
+      </form>
+
+    </div>
+    
+    
+  </div>
+  
+  <div style="margin-top: 10px" class="panel-footer">
+    <button *ngIf="loadingProfileEntry" class="btn btn-primary btn-block loading"></button>
+    <button *ngIf="!loadingProfileEntry" (click)="setProfileData()" [disabled]="!allowProfileSubmission()" class="btn btn-primary btn-block">Save</button>
+
+  </div>
+  
+  </div>

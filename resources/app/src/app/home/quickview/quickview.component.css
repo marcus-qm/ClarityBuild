@@ -1,0 +1,7 @@
+/* .quicklinks {
+    height: 30vh;
+} */
+
+.quicklinks > * {
+    height: 100%;
+}

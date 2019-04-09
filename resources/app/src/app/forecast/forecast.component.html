@@ -1,0 +1,13 @@
+<div class="container">
+
+  <nav class="panel-nav">
+    <ul class="tab tab-block">
+      <li [ngClass]="{'active': subnav === '/forecast/entry'}" class="tab-item"><a routerLink="entry">Entry Insights</a></li>
+      <li [ngClass]="{'active': subnav === '/forecast/business'}" class="tab-item"><a routerLink="business">Business
+          Insights</a></li>
+      <li [ngClass]="{'active': subnav === '/forecast/cost'}" class="tab-item"><a routerLink="cost">Cost Insights</a></li>
+    </ul>
+  </nav>
+  <router-outlet></router-outlet>
+
+</div>

@@ -1,0 +1,132 @@
+<div data-tooltip="Help" (click)="toggleHelp()" class="tooltip help s-circle">
+    <i class="icon icon-menu"></i>
+</div>
+
+<div [ngClass]="{'active': showHelpModal}" class="modal modal-lg" id="modal-id">
+    <a (click)="toggleHelp()" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container">
+
+        <div class="modal-header">
+
+            <a (click)="toggleHelp()" class="btn btn-clear float-right" aria-label="Close"></a>
+
+            <div class="modal-title h5 text-center">Help with Clarity...</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <div class="container">
+                    <div class="divider text-center" data-content="Dashboard Information"></div>
+                    <div class="columns">
+
+                        <div class="column col-7">
+                            <!-- <h1>What?</h1> -->
+                            <blockquote>
+                                <p>The Dashboard gives you an overview of your
+                                </p>
+                                <!-- <cite>- Epictetus</cite> -->
+                            </blockquote>
+                        </div>
+                        <div class="column col-5">
+                            You can do the following in the Dashboard
+                            <ul>
+                                <li>Create an Entry for the current Day</li>
+                                <li>Modify Past Entries</li>
+                                <li>View Chart of Past Income Tallies</li>
+                                <li>View Chart of Top Expenses YTD</li>
+                                <li>View Business Summary</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+
+                    <div class="divider text-center" data-content="Insights Information"></div>
+                    <div class="columns">
+
+                        <div class="column col-7">
+                            <!-- <h1>What?</h1> -->
+                            <blockquote>
+                                <p>The Insights Section gives you an in-depth layout of your entries, including costs
+                                    and forecasts
+                                </p>
+                                <!-- <cite>- Epictetus</cite> -->
+                            </blockquote>
+                        </div>
+                        <div class="column col-5">
+                            You can do the following in the Insights Tab
+                            <ul>
+                                <li>Entry Insights</li>
+                                <ul>
+                                    <li>Black tea</li>
+                                    <li>Green tea</li>
+                                </ul>
+                                <li>Business Insights</li>
+                                <ul>
+                                    <li>Black tea</li>
+                                    <li>Green tea</li>
+                                </ul>
+                                <li>Cost Insights</li>
+                                <ul>
+                                    <li>Black tea</li>
+                                    <li>Green tea</li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+
+                    <div class="divider text-center" data-content="Logs Information"></div>
+                    <div class="columns">
+
+                        <div class="column col-7">
+                            <!-- <h1>What?</h1> -->
+                            <blockquote>
+                                <p>The Logs Section gives you an running logs of actions taken on your Account
+                                </p>
+                                <!-- <cite>- Epictetus</cite> -->
+                            </blockquote>
+                        </div>
+                        <div class="column col-5">
+                            You can do the following in the Logs Tab
+                            <ul>
+                                <li>Hmm yeah coming back to this</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+
+                    <div class="divider text-center" data-content="Account Information"></div>
+                    <div class="columns">
+
+                        <div class="column col-7">
+                            <!-- <h1>What?</h1> -->
+                            <blockquote>
+                                <p>The Account Section gives you an access to change your Clarity Business Account
+                                    Information
+                                </p>
+                                <!-- <cite>- Epictetus</cite> -->
+                            </blockquote>
+                        </div>
+                        <div class="column col-5">
+                            You can do the following in the Account Tab
+                            <ul>
+                                <li>Add/Edit Personal Information</li>
+                                <li>Add/Edit Business Information</li>
+                                <li>Disable/Enable <span style="color: #5755d9;" class="tooltip tooltip-top"
+                                        data-tooltip="Labels for Income/Expense Entries">Entry Defaults</span></li>
+                                <li>Add/Remove <span style="color: #5755d9;" class="tooltip tooltip-top" data-tooltip="Labels for Income/Expense Entries">Entry
+                                        Defaults</span></li>
+                                <li>Add/Remove <span style="color: #5755d9;" class="tooltip tooltip-top" data-tooltip="Product(s)/Service(s) you sell">Inventory</span></li>
+                                <li>Add/Remove <span style="color: #5755d9;" class="tooltip tooltip-top" data-tooltip="Personnel you have hired">Employees</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

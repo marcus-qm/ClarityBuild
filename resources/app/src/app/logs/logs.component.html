@@ -1,0 +1,128 @@
+<div class="container" id="timelines">
+  <h3 style="margin-top: 20px" class="s-title">Logs</h3>
+  <p>The Timelines are ordered sequences of activities.</p>
+  <div class="form-group">
+      <select (change)="getLogsForMonth($event)" class="form-select">
+        <option *ngFor="let month of logMonths" value="{{month}}">Logs from {{month}}</option>
+      </select>
+    </div>
+  <div class="docs-demo columns">
+    <div class="column col-sm-12">
+      <div class="timeline">
+        <div class="timeline-item" id="timeline-example-2">
+          <div class="timeline-left"><a class="timeline-icon icon-lg tooltip"><i class="icon icon-check"></i></a></div>
+          <div class="timeline-content">
+            <div class="tile">
+              <div class class="tile-content">
+                <p class="tile-subtitle">{{monthSelected}}</p>
+                <div *ngFor="let item of items; let i=index" class="tile-title">
+                  <div class="columns">
+                    <div class="column col-sm-4">
+                      <h5><a href="components.html#steps">
+                          <i [ngClass]="{'icon-plus': item.action === 'ADD', 'icon-edit': item.action === 'EDIT'}"
+                            class="icon"></i>
+                          {{item.action}} ACTION</a>:</h5>
+                    </div>
+                    <div class="column col-sm-4">
+                      <p class="tile-title"><strong>Time: </strong>{{item.time_stamp}}</p>
+                    </div>
+                    <div class="column col-sm-4">
+                      <p><strong>Log Message: </strong>{{item.log_message}}</p>
+                    </div>
+                  </div>
+                  <div *ngIf="item.data" class="columns">
+                    <div class="col-4 col-mx-auto">
+                      <div class="tile-action">
+                        <button (click)="openData(item.data, item.section)" class="btn btn-block">View more details</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="divider text-center" data-content="Logs"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{active: showData}" class="modal modal-lg" id="modal-id">
+  <a (click)="toggleShowData()" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleShowData()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h5">Log Details</div>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="EMPLOYEE" class="content">
+        <!-- EMPLOYEE LOG DATA TEMPLATE -->
+        <div class="columns col-oneline">
+          <!-- <h3>this is dummy data, working on full functionality</h3> -->
+          <div *ngFor="let employee of MASTERLOGDATA; let i=index" class="column col-sm-4">
+            <div class="employee-log panel">
+              <div class="panel-header text-center">
+                <!-- <figure class="avatar avatar-lg"><img src="../img/avatar-2.png" alt="Avatar"></figure> -->
+                <div class="panel-title h5 mt-10">{{employee.name}}</div>
+                <div class="panel-subtitle">{{employee.title}}</div>
+              </div>
+              <div class="panel-body">
+                <div class="tile tile-centered">
+                  <div class="tile-content">
+                    <div class="tile-title text-bold">Salary</div>
+                    <div class="tile-subtitle">GHC {{employee['salary'].unit}} / {{employee['salary'].time_interval}}</div>
+                  </div>
+                </div>
+                <div class="tile tile-centered">
+                  <div class="tile-content">
+                    <div class="tile-title text-bold">Age</div>
+                    <div class="tile-subtitle">{{employee.age}} year(s) old</div>
+                  </div>
+                </div>
+                <div class="tile tile-centered">
+                  <div class="tile-content">
+                    <div class="tile-title text-bold">Hired on</div>
+                    <div class="tile-subtitle">{{employee.hired_date}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="INVENTORY" class="content">
+        <!-- INVENTORY LOG DATA TEMPLATE -->
+        <div class="columns">
+          <div *ngFor="let inventory of MASTERLOGDATA; let i=index" class="column col-sm-4">
+
+            <div class="employee-log panel">
+              <div class="panel-header text-center">
+                <!-- <figure class="avatar avatar-lg"><img src="../img/avatar-2.png" alt="Avatar"></figure> -->
+                <div class="panel-title h5 mt-10">{{inventory.label | titlecase}}</div>
+              </div>
+              <div class="panel-body">
+                <div class="tile tile-centered">
+                  <div class="tile-content">
+                    <div class="tile-title text-bold">Item Cost</div>
+                    <div class="tile-subtitle">GHC {{inventory.cost}}</div>
+                  </div>
+                </div>
+                <div class="tile tile-centered">
+                  <div class="tile-content">
+                    <div class="tile-title text-bold">Item Price</div>
+                    <div class="tile-subtitle">GHC {{inventory.price}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="expression" class="content"> -->
+      <!-- content here -->
+      <!-- </div> -->
+
+    </div>
+  </div>
+</div>

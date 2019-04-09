@@ -1,0 +1,6 @@
+<div *ngIf="show" class="p-relative">
+    <app-setup (setupSetMessage)="receiveMessage(event)" *ngIf="setup"></app-setup>
+    <app-nav></app-nav>
+    <router-outlet *ngIf="setupDone"></router-outlet>
+    <app-help></app-help>
+</div>

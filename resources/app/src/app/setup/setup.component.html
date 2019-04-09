@@ -1,0 +1,33 @@
+<div [ngClass]="{'active': showSetup}" class="modal modal-lg" id="modal-id">
+  <a class="modal-overlay"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleSetupModal()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h3">Welcome to Clarity!</div>
+      <div class="modal-title h5">Let's get you setup...</div>
+      <!-- <country-select></country-select> -->
+
+    </div>
+    <div class="modal-body">
+      <div class="content">
+        <nav class="panel-nav">
+          <ul class="tab tab-block">
+            <li [ngClass]="{'active': activestep === 1}" class="tab-item"><a>Profile<i *ngIf="step1done" class="icon icon-check"></i></a></li>
+            <li [ngClass]="{'active': activestep === 2}" class="tab-item"><a>Entry
+                Defaults<i *ngIf="step2done" class="icon icon-check"></i></a></li>
+            <li [ngClass]="{'active': activestep === 3}" class="tab-item"><a>Inventory<i *ngIf="step3done" class="icon icon-check"></i></a></li>
+
+            <li [ngClass]="{'active': activestep === 4}" class="tab-item"><a>Employees<i *ngIf="step4done" class="icon icon-check"></i></a></li>
+          </ul>
+        </nav>
+        <setup-profile (profileSetMessage)="receiveMessage($event)" *ngIf="activestep === 1"></setup-profile>
+        <setup-defaults (defaultsSetMessage)="receiveMessage($event)" *ngIf="activestep === 2"></setup-defaults>
+        <setup-inventory (inventorySetMessage)="receiveMessage($event)" *ngIf="activestep === 3"></setup-inventory>
+        <setup-employees (employeeSetMessage)="receiveMessage($event)" *ngIf="activestep === 4"></setup-employees>
+      </div>
+    </div>
+    <!-- <div class="modal-footer">
+        ...
+      </div> -->
+  </div>
+</div>

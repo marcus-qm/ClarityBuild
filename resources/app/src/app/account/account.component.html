@@ -1,0 +1,29 @@
+<div class="container">
+
+  <div class="columns">
+    <div class="column col-12">
+      <div class="panel">
+        <div class="panel-header text-center">
+          <!-- <figure class="avatar avatar-lg"><img src="https://media.licdn.com/dms/image/C5603AQHZO9Jy2Wd0aw/profile-displayphoto-shrink_200_200/0?e=1551312000&v=beta&t=QNVf2XIl1EM8dCUMY_nxARBaShxwPsnRhbsRGOTbUN4"
+              alt="Avatar"></figure> -->
+          <div class="panel-title h5 mt-10">{{account_firstName}} {{account_lastName}}</div>
+          <div class="panel-subtitle">{{account_id}}</div>
+          <div class="panel-footer">
+            <button (click)="activateProfile()" *ngIf="!accountActive" [disabled]="!allowActivateProfile" class="btn btn-primary btn-block">Activate Profile</button>
+          </div>
+        </div>
+        <nav class="panel-nav">
+          <ul class="tab tab-block">
+            <li [ngClass]="{'active': subnav === '/account/profile'}" class="tab-item"><a routerLink="profile">Profile</a></li>
+            <li [ngClass]="{'active': subnav === '/account/defaults'}" class="tab-item"><a routerLink="defaults">Entry
+                Defaults</a></li>
+                <li [ngClass]="{'active': subnav === '/account/inventory'}" class="tab-item"><a routerLink="inventory">Inventory</a></li>
+
+            <li [ngClass]="{'active': subnav === '/account/employees'}" class="tab-item"><a routerLink="employees">Employees</a></li>
+          </ul>
+        </nav>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

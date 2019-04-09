@@ -1,0 +1,88 @@
+<div class="container quicklinks">
+  <div class="columns">
+    <div class="column col-sm-6">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Income Entries</div>
+        </div>
+        <div class="panel-nav col-sm-4 col-mx-auto">
+          <div *ngIf="xEntryValues.length !== 0" class="form-group">
+            <select (change)="getIncomeEntries($event)" class="form-select">
+              <option value="10">Last 10 Entries</option>
+              <option value="25">Last 25 Entries</option>
+              <option value="50">Last 50 Entries</option>
+              <option value="100">Last 100 Entries</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-body">
+          <app-chart [id]="myChartid" [labels]="xEntryLabels" [data]="xEntryValues" [chartLabel]="myChart1label"></app-chart>
+        </div>
+        <div class="panel-footer">
+          <!-- buttons or inputs -->
+        </div>
+      </div>
+    </div>
+    <!-- <div class="divider-vert"></div> -->
+    <div class="column col-sm-6">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Top Expenses YTD</div>
+        </div>
+        <div class="panel-nav">
+          <!-- navigation components: tabs, breadcrumbs or pagination -->
+        </div>
+        <div class="panel-body">
+          <app-chart [id]="myChartid2" [labels]="topExpensesLabels" [data]="topExpensesValues" [chartLabel]="myChart2label"></app-chart>
+        </div>
+        <div class="panel-footer">
+          <!-- buttons or inputs -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider text-center" data-content="Summary"></div>
+
+<div class="container quicklinks">
+
+  <div class="columns">
+
+    <div class="column col-sm-12">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Summary</div>
+        </div>
+        <div class="panel-nav">
+          <!-- navigation components: tabs, breadcrumbs or pagination -->
+        </div>
+        <div class="panel-body">
+
+          <div class="columns">
+
+            <div class="column col-6">
+              <div class="columns">
+                  <div class="column col-4">Business Name: </div>
+                  <div class="column col-8"><a routerLink="/account"><strong>{{businessInfo.name}}</strong></a></div>
+              </div>
+              <div class="columns">
+                  <div class="column col-4">Employees: </div>
+                  <div class="column col-8"><a routerLink="/account/employees"><strong>{{employeesCount}}</strong></a></div>
+              </div>
+            </div>
+            <div class="column col-6">
+              <div class="columns">
+                <div class="column col-6">col-6</div>
+                <div class="column col-6">col-6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <!-- buttons or inputs -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

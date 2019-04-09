@@ -1,0 +1,13 @@
+<div class="tspace div">
+  <canvas *ngIf="!showBlank" id="{{id}}"></canvas>
+  <div *ngIf="showBlank" class="empty">
+      <div class="tspace empty-icon">
+        <i class="icon icon-people"></i>
+      </div>
+      <p class="empty-title h5">No Data</p>
+      <p class="empty-subtitle">Close Out Your Day to get Insights!</p>
+      <div class="empty-action">
+        <!-- <button class="btn btn-primary">Send a message</button> -->
+      </div>
+    </div>          
+</div>

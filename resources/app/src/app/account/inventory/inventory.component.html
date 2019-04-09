@@ -1,0 +1,173 @@
+<div class="container">
+  <div style="margin-top: 15px;" class="has-icon-right">
+    <input (keyup)="findInventory($event.target.value)" type="text" class="form-input" placeholder="Search for Inventory...">
+    <i [ngClass]="{loading: searchingForInventory}" class="form-icon"></i>
+  </div>
+  <div class="columns col-oneline">
+
+    
+    <ng-container *ngIf="inventoryList.length ; else elseTemplate">
+      <!-- <h3>this is dummy data, working on full functionality</h3> -->
+      <div *ngFor="let inventory of inventoryList; let i=index" class="column col-sm-4">
+  
+        <div class="panel">
+          <div class="panel-header text-center">
+            <!-- <figure class="avatar avatar-lg"><img src="../img/avatar-2.png" alt="Avatar"></figure> -->
+            <div class="panel-title h5 mt-10">{{inventory.label | titlecase}}</div>
+          </div>
+          <div class="panel-body">
+            <div class="tile tile-centered">
+              <div class="tile-content">
+                <div class="tile-title text-bold">Item Cost</div>
+                <div class="tile-subtitle">{{inventory.cost | currency:'GHS':'symbol':'0.2-2'}}</div>
+              </div>
+            </div>
+            <div class="tile tile-centered">
+              <div class="tile-content">
+                <div class="tile-title text-bold">Item Price</div>
+                <div class="tile-subtitle">{{inventory.price | currency:'GHS':'symbol':'0.2-2'}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button (click)="updateInventory(inventory.id)" class="btn btn-primary btn-block">Update</button>
+          </div>
+        </div>
+  
+      </div>
+      
+    </ng-container>
+    <ng-template #elseTemplate>
+      
+          <div style="width: 100%" class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-people"></i>
+              </div>
+              <p class="empty-title h5">You have no Inventory</p>
+              <!-- <p class="empty-subtitle">Click the button to add an Employee.</p> -->
+              <div class="empty-action">
+                <!-- <button (click)="addEmployee()" class="btn btn-primary">Add Employee</button> -->
+              </div>
+            </div>
+      
+    </ng-template>
+
+  </div>
+  <div class="columns space">
+    <div class="column col-sm-3">
+      <button (click)="addInventoryToggle()" class="btn btn-primary btn-block">Add Inventory</button>
+    </div>
+    <div class="column col-sm-3">
+      <button [disabled]="!inventoryList.length" (click)="toggleEODModal2()" class="btn btn-primary btn-block">Remove Inventory</button>
+    </div>
+    <div class="column col-sm-3">
+      <button *ngIf="!updatingInventory" [disabled]="!allowInventoryListUpdate()" (click)="updateInventoryList()" class="btn btn-primary btn-block">Save
+        Changes</button>
+      <button *ngIf="updatingInventory" class="btn btn-block btn-primary loading"></button>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showEODModal}" class="modal modal-lg" id="modal-id">
+  <a (click)="toggleEODModal()" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleEODModal()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h5 text-center">Add Inventory</div>
+    </div>
+    <div class="modal-body">
+      <div class="content col-6 col-mx-auto">
+        <form [formGroup]="addInventoryForm">
+          <div [ngClass]="{'has-error': addInventoryForm.controls['label'].invalid && addInventoryForm.controls['label'].dirty && addInventoryForm.controls['label'].touched}"
+            class="form-group">
+            <label class="form-label" for="label">Name:</label>
+            <input class="form-input" 
+              formControlName="label" type="text" id="label" placeholder="Inventory Name">
+          </div>
+          <div [ngClass]="{'has-error': addInventoryForm.controls['cost'].invalid && addInventoryForm.controls['cost'].dirty && addInventoryForm.controls['cost'].touched}"
+            class="form-group">
+            <label class="form-label" for="position">Cost:</label>
+            <input class="form-input"
+              formControlName="cost" type="number" id="cost" placeholder="Cost">
+          </div>
+          <div [ngClass]="{'has-error': addInventoryForm.controls['price'].invalid} && addInventoryForm.controls['price'].dirty && addInventoryForm.controls['price'].touched"
+            class="form-group">
+            <label class="form-label" for="price">Price: </label>
+            <input class="form-input" 
+              formControlName="price" type="number" id="price" placeholder="Price">
+          </div>
+
+          <div class="form-group">
+            <div class="column col-sm-4">
+              <button (click)="saveInventory()" [disabled]="!addInventoryForm.valid" class="btn btn-primary btn-block">Save Inventory</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showEODModal2}" class="modal modal-lg" id="modal-id">
+  <a (click)="toggleEODModal2()" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleEODModal2()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h5 text-center">Remove Inventory</div>
+    </div>
+    <div class="modal-body">
+      <div class="content col-10 col-mx-auto">
+          <div *ngFor="let inventory of inventoryList" class="tile">
+              <div class="tile-content">
+                <p class="tile-title">{{inventory.label}}</p>
+                <p class="tile-subtitle">Cost: {{inventory.cost}} || Price: {{inventory.price}}</p>
+              </div>
+              <div class="tile-action">
+                <button (click)="removeInventory(inventory.id)" class="btn btn-primary">Remove {{inventory.label | titlecase}}</button>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showEODModal3}" class="modal modal-lg" id="modal-id">
+    <a (click)="toggleEODModal3()" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container">
+      <div class="modal-header">
+        <a (click)="toggleEODModal3()" class="btn btn-clear float-right" aria-label="Close"></a>
+        <div class="modal-title h5 text-center">Edit Inventory: </div>
+      </div>
+      <div class="modal-body">
+        <div class="content col-10 col-mx-auto">
+          <form [formGroup]="editInventoryForm">
+            <div [ngClass]="{'has-error': editInventoryForm.controls['label'].invalid && editInventoryForm.controls['label'].dirty && editInventoryForm.controls['label'].touched}"
+              class="form-group">
+              <label class="form-label" for="label">Name:</label>
+              <input class="form-input" 
+                formControlName="label" type="text" id="label" placeholder="Inventory Name">
+            </div>
+            <div [ngClass]="{'has-error': editInventoryForm.controls['cost'].invalid && editInventoryForm.controls['cost'].dirty && editInventoryForm.controls['cost'].touched}"
+              class="form-group">
+              <label class="form-label" for="position">Cost:</label>
+              <input class="form-input"
+                formControlName="cost" type="text" id="cost" placeholder="Cost">
+            </div>
+            <div [ngClass]="{'has-error': editInventoryForm.controls['price'].invalid} && editInventoryForm.controls['price'].dirty && editInventoryForm.controls['price'].touched"
+              class="form-group">
+              <label class="form-label" for="price">Price: </label>
+              <input class="form-input" 
+                formControlName="price" type="number" id="price" placeholder="Price">
+            </div>
+      
+                <div class="form-group">
+                  <div class="column col-sm-4">
+                    <button [disabled]="!editInventoryForm.valid && editInventoryForm.touched && editInventoryForm.dirty" (click)="updateInventoryDetails()" class="btn btn-primary btn-block">Update Inventory</button>
+                  </div>
+                </div>
+      
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>

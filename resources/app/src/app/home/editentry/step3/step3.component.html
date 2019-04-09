@@ -1,0 +1,64 @@
+<div class="panel">
+    <div class="panel-header">
+      <div class="modal-title h3 text-center">Overview of Entries for {{date}}</div>
+    </div>
+    <div class="panel-body">
+      <div class="container">
+        <div class="columns">
+          <div class="column col-6">
+            <div class="modal-title h5 text-center">Income</div>
+            <table *ngIf="incomeArray.length" class="table">
+              <thead>
+                <tr>
+                  <th>Income Label</th>
+                  <th>Income Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let incomeItem of incomeArray">
+                  <td>{{incomeItem.label}}</td>
+                  <td>{{incomeItem.value | currency:'GHS':'symbol':'0.2-2'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="!incomeArray.length" class="toast toast-warning">
+              <!-- <button class="btn btn-clear float-right"></button> -->
+              No Income Entries.
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="column col-6">
+            <div class="modal-title h5 text-center">Expenses</div>
+            <table *ngIf="expensesArray.length" class="table">
+              <thead>
+                <tr>
+                  <th>Expense Label</th>
+                  <th>Expense Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let expenseItem of expensesArray">
+                  <td>{{expenseItem.label}}</td>
+                  <td>{{expenseItem.value | currency:'GHS':'symbol':'0.2-2'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="!expensesArray.length" class="toast toast-warning">
+              <!-- <button class="btn btn-clear float-right"></button> -->
+              No Expense Entries.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div style="margin-top: 25px" class="panel-footer">
+        <button *ngIf="loadingEntry" class="btn btn-primary btn-block loading"></button>
+        <button *ngIf="!loadingEntry" (click)="addSummary()" class="btn btn-primary btn-block">Add Entry</button>
+      </div>
+  
+  <!-- 
+    <div class="panel-footer">
+      <button [disabled]="readyForSubmit()" class="btn btn-primary" (click)="addSummary()">Add Entry</button>
+    </div> -->
+  </div>

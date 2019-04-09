@@ -1,0 +1,42 @@
+{
+    "user": {
+        "id": "",
+        "first_login": true,
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "DOB": "",
+ "last_opened": ""
+    },
+    "subscription": {
+     "status": "",
+      "payment_date": "",
+      "payment_due": ""
+    },
+    "business": {
+        "name": "",
+        "location_city": "",
+        "location_region": "",
+        "est": ""
+    },
+    "expenses_presets": [
+    ],
+    "income_presets": [
+    ],
+    "entry_db": {
+ 
+    },
+    "insights": {
+        "summary": {
+
+        },
+        "forecast": {
+
+        },
+        "estimate": {
+
+        }
+    },
+    "employees": [  ],
+    "logs": [ ]
+}

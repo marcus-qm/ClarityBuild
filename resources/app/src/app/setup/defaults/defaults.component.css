@@ -1,0 +1,25 @@
+.loading {
+    width: 100%;
+}
+
+.chip {
+    float: right;
+    margin-top: 6px;
+}
+
+.inflex {
+    display: inline-flex;
+    width: 100%;
+}
+
+.inflex > div {
+    width: 100%;
+}
+
+.somespace {
+    margin-top: 50px;
+}
+
+.panel-footer{
+    margin-top: 25px;
+}

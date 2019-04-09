@@ -1,0 +1,237 @@
+<div class="container">
+  <div style="margin-top: 15px;" class="has-icon-right">
+    <input (keyup)="searchForEmployee($event.target.value)" type="text" class="form-input" placeholder="Search for Employee...">
+    <i [ngClass]="{loading: searchingForEmployee}" class="form-icon"></i>
+  </div>
+  <div class="columns col-oneline">
+
+    
+    <ng-container *ngIf="employeeList.length ; else elseTemplate">
+      <!-- <h3>this is dummy data, working on full functionality</h3> -->
+      <div *ngFor="let employee of employeeList; let i=index" class="column col-sm-4">
+  
+        <div class="panel">
+          <div class="panel-header text-center">
+            <!-- <figure class="avatar avatar-lg"><img src="../img/avatar-2.png" alt="Avatar"></figure> -->
+            <div class="panel-title h5 mt-10">{{employee.name | titlecase}}</div>
+            <div class="panel-subtitle">{{employee.title}}</div>
+          </div>
+          <div class="panel-body">
+            <div class="tile tile-centered">
+              <div class="tile-content">
+                <div class="tile-title text-bold">Salary</div>
+                <div class="tile-subtitle">GHC {{employee['salary'].unit}} / {{employee['salary'].time_interval}}</div>
+              </div>
+            </div>
+            <div class="tile tile-centered">
+              <div class="tile-content">
+                <div class="tile-title text-bold">Age</div>
+                <div class="tile-subtitle">{{employee.age}} year(s) old</div>
+              </div>
+            </div>
+            <div class="tile tile-centered">
+              <div class="tile-content">
+                <div class="tile-title text-bold">Hired on</div>
+                <div class="tile-subtitle">{{employee.hired_date}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button (click)="updateEmployee(employee.id)" class="btn btn-primary btn-block">Update</button>
+          </div>
+        </div>
+  
+      </div>
+      
+    </ng-container>
+    <ng-template #elseTemplate>
+      
+          <div style="width: 100%" class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-people"></i>
+              </div>
+              <p class="empty-title h5">You have no Employees</p>
+              <!-- <p class="empty-subtitle">Click the button to add an Employee.</p> -->
+              <div class="empty-action">
+                <button (click)="addEmployee()" class="btn btn-primary">Add Employee</button>
+              </div>
+            </div>
+      
+    </ng-template>
+
+  </div>
+  <div class="columns space">
+    <div class="column col-sm-3">
+      <button (click)="addEmployee()" class="btn btn-primary btn-block">Add Employee(s)</button>
+    </div>
+    <div class="column col-sm-3">
+      <button [disabled]="!employeeList.length" (click)="toggleEODModal2()" class="btn btn-primary btn-block">Remove Employee(s)</button>
+    </div>
+    <div class="column col-sm-3">
+      <button *ngIf="!updatingEmployees" [disabled]="!allowEmployeeListUpdate()" (click)="updateEmployeeList()" class="btn btn-primary btn-block">Save
+        Changes</button>
+      <button *ngIf="updatingEmployees" class="btn btn-block btn-primary loading"></button>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showEODModal}" class="modal modal-lg" id="modal-id">
+  <a (click)="toggleEODModal()" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleEODModal()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h5 text-center">Add Employee</div>
+    </div>
+    <div class="modal-body">
+      <div class="content col-6 col-mx-auto">
+        <form [formGroup]="addEmployeeForm">
+          <div [ngClass]="{'has-error': addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].dirty && addEmployeeForm.controls['name'].touched}"
+            class="form-group">
+            <label class="form-label" for="name">Name:</label>
+            <input class="form-input" 
+              formControlName="name" type="text" id="name" placeholder="Employee Name">
+          </div>
+          <div [ngClass]="{'has-error': addEmployeeForm.controls['position'].invalid && addEmployeeForm.controls['position'].dirty && addEmployeeForm.controls['position'].touched}"
+            class="form-group">
+            <label class="form-label" for="position">Position:</label>
+            <input class="form-input"
+              formControlName="position" type="text" id="position" placeholder="Position">
+          </div>
+          <div [ngClass]="{'has-error': addEmployeeForm.controls['dob'].invalid} && addEmployeeForm.controls['dob'].dirty && addEmployeeForm.controls['dob'].touched"
+            class="form-group">
+            <label class="form-label" for="dob">Date of Birth: </label>
+            <input class="form-input" 
+              formControlName="dob" type="date" id="dob" placeholder="Hired On">
+          </div>
+          <div [ngClass]="{'has-error': addEmployeeForm.controls['hired_on'].invalid && addEmployeeForm.controls['hired_on'].dirty && addEmployeeForm.controls['hired_on'].touched}"
+            class="form-group">
+            <label class="form-label" for="hired_on">Hired On: </label>
+            <input class="form-input" 
+              formControlName="hired_on" type="date" id="hired_on" placeholder="Hired On">
+          </div>
+          <div style="display: flex" class="form-group form-inline">
+            <div [ngClass]="{'has-error': addEmployeeForm.controls['salary'].invalid && addEmployeeForm.controls['salary'].dirty && addEmployeeForm.controls['salary'].touched}">
+              <label class="form-label form-inline" for="salary">Salary: </label>
+              <input class="form-input" [value]="addEmployeeForm.controls['salary'].value"
+                formControlName="salary" type="number" id="salary" placeholder="Salary">
+            </div>
+
+            <div [ngClass]="{'has-error': addEmployeeForm.controls['pay_period'].invalid && addEmployeeForm.controls['pay_period'].dirty && addEmployeeForm.controls['pay_period'].touched}">
+
+              <label class="form-checkbox form-inline">Pay Period</label>
+              <select formControlName="pay_period" class="form-select">
+                <option value="Hourly">Hourly</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Yearly">Yearly</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <div class="column col-sm-4">
+              <button [disabled]="!addEmployeeForm.valid" (click)="saveEmployee()" class="btn btn-primary btn-block">Save Employee</button>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showEODModal2}" class="modal modal-lg" id="modal-id">
+  <a (click)="toggleEODModal2()" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleEODModal2()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h5 text-center">Remove Employee(s)</div>
+    </div>
+    <div class="modal-body">
+      <div class="content col-10 col-mx-auto">
+          <div *ngFor="let employee of employeeList" class="tile">
+              <div class="tile-content">
+                <p class="tile-title">{{employee.name}}</p>
+                <p class="tile-subtitle">{{employee.title}} || {{employee.dob}}</p>
+              </div>
+              <div class="tile-action">
+                <button (click)="removeEmployee(employee.id)" class="btn btn-primary">Remove {{employee.name}}</button>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showEODModal3}" class="modal modal-lg" id="modal-id">
+    <a (click)="toggleEODModal3()" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container">
+      <div class="modal-header">
+        <a (click)="toggleEODModal3()" class="btn btn-clear float-right" aria-label="Close"></a>
+        <div class="modal-title h5 text-center">Edit Employee: </div>
+      </div>
+      <div class="modal-body">
+        <div class="content col-10 col-mx-auto">
+            <form [formGroup]="editEmployeeForm">
+                <div [ngClass]="{'has-error': editEmployeeForm?.controls['name'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                  class="form-group">
+                  <label class="form-label" for="name">Name:</label>
+                  <input class="form-input" [ngClass]="{'is-success': editEmployeeForm?.controls['name'].invalid  && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                    formControlName="name" type="text" id="name" placeholder="Employee Name">
+                </div>
+                <div [ngClass]="{'has-error': editEmployeeForm?.controls['position'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                  class="form-group">
+                  <label class="form-label" for="position">Position:</label>
+                  <input class="form-input" [ngClass]="{'is-success': editEmployeeForm?.controls['position'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                    formControlName="position" type="text" id="position" placeholder="Position">
+                </div>
+                <div [ngClass]="{'has-error': editEmployeeForm?.controls['dob'].invalid} && editEmployeeForm?.dirty && editEmployeeForm?.touched"
+                  class="form-group">
+                  <label class="form-label" for="dob">Date of Birth: </label>
+                  <input class="form-input" [ngClass]="{'is-success': editEmployeeForm?.controls['dob'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                    formControlName="dob" type="date" id="dob" placeholder="Hired On">
+                </div>
+                <div [ngClass]="{'has-error': editEmployeeForm?.controls['hired_on'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                  class="form-group">
+                  <label class="form-label" for="hired_on">Hired On: </label>
+                  <input class="form-input" [ngClass]="{'is-success': editEmployeeForm?.controls['hired_on'].invalid  && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                    formControlName="hired_on" type="date" id="hired_on" placeholder="Hired On">
+                </div>
+                <div style="display: flex" class="form-group form-inline">
+                  <div [ngClass]="{'has-error': editEmployeeForm?.controls['salary'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}">
+                    <label class="form-label form-inline" for="salary">Salary: </label>
+                    <input class="form-input" [value]="editEmployeeForm?.controls['salary'].value" [ngClass]="{'is-success': editEmployeeForm?.controls['salary'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}"
+                      formControlName="salary" type="number" id="salary" placeholder="Salary">
+                  </div>
+      
+                  <div [ngClass]="{'has-error': editEmployeeForm?.controls['pay_period'].invalid && editEmployeeForm?.dirty && editEmployeeForm?.touched}">
+      
+                    <label class="form-checkbox form-inline">Pay Period</label>
+                    <select formControlName="pay_period" class="form-select">
+                      <option value="Hourly">Hourly</option>
+                      <option value="Daily">Daily</option>
+                      <option value="Weekly">Weekly</option>
+                      <option value="Monthly">Monthly</option>
+                      <option value="Yearly">Yearly</option>
+                    </select>
+                  </div>
+                </div>
+      
+      
+      
+                <div class="form-group">
+                  <div class="column col-sm-4">
+                    <button [disabled]="!editEmployeeForm.valid && editEmployeeForm.touched && editEmployeeForm.dirty" (click)="updateEmployeeDetails()" class="btn btn-primary btn-block">Update Employee</button>
+                  </div>
+                </div>
+      
+      
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>

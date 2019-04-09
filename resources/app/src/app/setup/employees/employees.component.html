@@ -1,0 +1,90 @@
+<div class="columns">
+  <div class="column col-sm-6">
+    <div class="divider text-center" data-content="Employee List"></div>
+    <div *ngIf="employeeList.length">
+      <div *ngFor="let employee of employeeList" class="tile tile-centered">
+        <div class="tile-icon">
+          <div class="example-tile-icon">
+            <i class="icon icon-people centered"></i>
+          </div>
+        </div>
+        <div class="tile-content">
+          <div class="tile-title">{{employee.name}}</div>
+          <small class="tile-subtitle text-gray">Position · {{employee.title}} || Salary ·
+            GHC{{employee['salary'].unit}} / {{employee['salary'].time_interval}}</small>
+        </div>
+        <div class="tile-action">
+          <button class="btn btn-link">
+            <i class="icon icon-more-vert"></i>
+          </button>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button *ngIf="updatingEmployeeList" class="btn btn-primary loading"></button>
+        <button *ngIf="!updatingEmployeeList" (click)="startClarity()" class="btn btn-block btn-primary">Start Clarity!</button>
+      </div>
+    </div>
+
+  </div>
+  <!-- </div> -->
+  <!-- <div class="divider-vert" data-content="AND"></div> -->
+  <div class="column col-sm-6">
+    <div class="divider text-center" data-content="Add Employee"></div>
+
+
+    <form [formGroup]="addEmployeeForm">
+      <div [ngClass]="{'has-error': addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].dirty && addEmployeeForm.controls['name'].touched}"
+        class="form-group">
+        <label class="form-label" for="name">Name:</label>
+        <input class="form-input" formControlName="name" type="text" id="name" placeholder="Employee Name">
+      </div>
+      <div [ngClass]="{'has-error': addEmployeeForm.controls['position'].invalid && addEmployeeForm.controls['position'].dirty && addEmployeeForm.controls['position'].touched}"
+        class="form-group">
+        <label class="form-label" for="position">Position:</label>
+        <input class="form-input" formControlName="position" type="text" id="position" placeholder="Position">
+      </div>
+      <div [ngClass]="{'has-error': addEmployeeForm.controls['dob'].invalid} && addEmployeeForm.controls['dob'].dirty && addEmployeeForm.controls['dob'].touched"
+        class="form-group">
+        <label class="form-label" for="dob">Date of Birth: </label>
+        <input class="form-input" formControlName="dob" type="date" id="dob" placeholder="Hired On">
+      </div>
+      <div [ngClass]="{'has-error': addEmployeeForm.controls['hired_on'].invalid && addEmployeeForm.controls['hired_on'].dirty && addEmployeeForm.controls['hired_on'].touched}"
+        class="form-group">
+        <label class="form-label" for="hired_on">Hired On: </label>
+        <input class="form-input" formControlName="hired_on" type="date" id="hired_on" placeholder="Hired On">
+      </div>
+      <div style="display: flex" class="form-group form-inline">
+        <div [ngClass]="{'has-error': addEmployeeForm.controls['salary'].invalid && addEmployeeForm.controls['salary'].dirty && addEmployeeForm.controls['salary'].touched}">
+          <label class="form-label form-inline" for="salary">Salary: </label>
+          <input class="form-input" [value]="addEmployeeForm.controls['salary'].value" formControlName="salary" type="number"
+            id="salary" placeholder="Salary">
+        </div>
+
+        <div [ngClass]="{'has-error': addEmployeeForm.controls['pay_period'].invalid && addEmployeeForm.controls['pay_period'].dirty && addEmployeeForm.controls['pay_period'].touched}">
+
+          <label class="form-checkbox form-inline">Pay Period</label>
+          <select formControlName="pay_period" class="form-select">
+            <option value="Hourly">Hourly</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+
+
+
+      <div class="form-group">
+        <div class="column col-sm-4">
+          <button [disabled]="!addEmployeeForm.valid" (click)="saveEmployee()" class="btn btn-block">Save Employee</button>
+        </div>
+      </div>
+
+
+    </form>
+
+
+  </div>
+
+</div>

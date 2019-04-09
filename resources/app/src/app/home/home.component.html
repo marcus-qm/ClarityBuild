@@ -1,0 +1,85 @@
+<div class="container">
+
+    <h1>Welcome back, {{account_firstName | titlecase}}</h1>
+
+    <blockquote>
+        <p>Wealth consists not in having great possessions, but in having few wants.
+        </p>
+        <cite>- Epictetus</cite>
+    </blockquote>
+
+    <p>Let's do something</p>
+
+    <div class="columns">
+        <div class="column col-sm-6">
+            <button class="btn btn-primary btn-block" (click)="toggleEODModal()">Close Today! <i style="margin-bottom: 5px;
+                margin-left: 5px;" class="icon icon-plus"></i></button>
+        </div>
+        <div class="column col-sm-6">
+            <button (click)="toggleEODModal2()" class="btn btn-block">Revise Previous Entries <i style="margin-bottom: 5px;
+                margin-left: 5px;" class="icon icon-time"></i></button>
+        </div>
+    </div>
+
+    <div [ngClass]="{'active': showEODModal}" class="modal modal-lg" id="modal-id">
+        <a (click)="toggleEODModal()" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+            <div class="modal-header">
+                <a (click)="toggleEODModal()" class="btn btn-clear float-right" aria-label="Close"></a>
+                <ul class="step">
+                    <li [ngClass]="{'active': activestep === 1}" class="step-item">
+                        <a (click)="jumptostep(1)" class="tooltip" data-tooltip="Step 1">Incomes</a>
+                    </li>
+                    <li [ngClass]="{'active': activestep === 2}" class="step-item">
+                        <a (click)="jumptostep(2)" class="tooltip" data-tooltip="Step 2">Expenses</a>
+                    </li>
+                    <li [ngClass]="{'active': activestep === 3}" class="step-item">
+                        <a (click)="jumptostep(3)" class="tooltip" data-tooltip="Step 3">Overview</a>
+                    </li>
+                </ul>
+                <div class="modal-title h5 text-center">Entry for {{date}}...</div>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <app-step1 [income]="incomeValue" (messageEvent1)="receiveMessage($event)" *ngIf="activestep === 1"></app-step1>
+                    <app-step2 [expense]="expenseJSON" (messageEvent2)="receiveMessage($event)" *ngIf="activestep === 2"></app-step2>
+                    <app-overview (messageEvent)="receiveClose($event)" [eodSubmitJSONValue]="eodSubmitJSON" *ngIf="activestep === 3"></app-overview>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div [ngClass]="{'active': showEODModal2}" class="modal modal-lg" id="modal-id">
+        <a (click)="toggleEODModal2()" class="modal-overlay" aria-label="Close"></a>
+        <div class="modal-container">
+                <ul class="step">
+                        <li [ngClass]="{'active': step1 === true}" class="step-item">
+                            <a (click)="jumptoeditstep(1)" class="tooltip" data-tooltip="Step 1">Date</a>
+                        </li>
+                        <li [ngClass]="{'active': step2 === true}" class="step-item">
+                            <a (click)="jumptoeditstep(2)" class="tooltip" data-tooltip="Step 2">Entry</a>
+                        </li>
+                        <li [ngClass]="{'active': step3 === true}" class="step-item">
+                            <a (click)="jumptoeditstep(3)" class="tooltip" data-tooltip="Step 3">Confirmation</a>
+                        </li>
+                    </ul>
+            <div class="modal-header">
+                
+                <a (click)="toggleEODModal2()" class="btn btn-clear float-right" aria-label="Close"></a>
+                
+                <!-- <div class="modal-title h5 text-center">Pick a Date...</div> -->
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                        <app-editstep1 (messageEvent3)="receiveEditMessage($event)" *ngIf="step1"></app-editstep1>
+                        <app-editstep2 [entrydate]="EntryDate" (messageEvent4)="receiveEditFinal($event)" [data]="editData" *ngIf="step2 === true"></app-editstep2>
+                        <app-editstep3 (messageEvent5)="closeEvent($event)" *ngIf="step3 === true" [finalSubmit]="masterData"></app-editstep3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider text-center" data-content="Entries Insights"></div>
+
+    <app-quickview></app-quickview>
+</div>

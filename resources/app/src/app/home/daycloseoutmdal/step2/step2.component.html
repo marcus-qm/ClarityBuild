@@ -1,0 +1,29 @@
+<div *ngIf="expensePresetsExist">
+  <form [formGroup]="expenseForm">
+    <div class="col-6 col-mx-auto">
+      <div *ngFor="let preset of preset_labels, let i=index" class="form-group">
+        <label class="form-label text-center" for="input-example-{{i}}">{{preset.label}}</label>
+        <input formControlName="{{preset.label}}" class="form-input form-inline" type="number" required id="expense-{{i}}"
+          placeholder="{{preset.label}}">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="preset_labels.length === 0" class="form-group">
+    <div class="empty">
+      <div class="empty-icon">
+        <i class="icon icon-people"></i>
+      </div>
+      <p class="empty-title h5">You have No Expense Defaults.</p>
+      <p class="empty-subtitle">Go to Settings > Entry Defaults to Enable / Add Expense Defaults.</p>
+      <div class="empty-action">
+          <button routerLink="/account/defaults" class="btn">Settings > Entry Defaults</button>
+          
+          
+      </div>
+    </div>
+  </div>
+
+<button class="btn btn-primary" (click)="goToSummary()">View Summary</button>
+<!-- <button (click)="addOtherIncome()">Add Other Expense Type</button> -->

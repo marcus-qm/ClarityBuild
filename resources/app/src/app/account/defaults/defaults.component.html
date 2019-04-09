@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="columns">
+    <div class="column col-sm-12 col-md-6">
+      <div class="divider text-center" data-content="Expense Defaults"></div>
+      <form [formGroup]="expensePresetForm">
+        <div *ngFor="let label of expenseLabels, let i=index" class="form-group">
+          <div class="inflex">
+              <label class="form-switch">
+                  <input formControlName="{{label.label}}" name="{{label.label}}" id="{{label.label}}" checked="label.value" type="checkbox">
+                  <i class="form-icon"></i> {{label.label | titlecase}}
+                </label>
+                <span class="chip">
+                    <a (click)="deleteExpenseLabel(label.label)" class="btn btn-clear" aria-label="Close" role="button"></a>
+                  </span>
+          </div>
+        </div>
+      </form>
+
+      <form class="somespace" [formGroup]="expenseAddPresetForm">
+      <div class="input-group"><span class="input-group-addon">Add Expense Default</span>
+        <input formControlName="expenseAdd" class="form-input" type="text" placeholder="Add Expense Default">
+        <button [disabled]="!allowAddExpensePresetSubmit()" (click)="addExpenseDefault()" class="btn btn-primary input-group-btn">+</button>
+      </div>
+    </form>
+
+
+
+      <div class="panel-footer">
+        <button *ngIf="loadingExpense" class="btn btn-primary loading"></button>
+        <button *ngIf="!loadingExpense" [disabled]="!allowExpensePresetSubmit()" (click)="setExpenseDefaults()" class="btn btn-primary btn-block">Save</button>
+      </div>
+
+    </div>
+    <!-- <div class="divider-vert" data-content="AND"></div> -->
+    <div class="column col-sm-12 col-md-6">
+      <div class="divider text-center" data-content="Income Defaults"></div>
+
+      <form [formGroup]="incomePresetForm">
+        <div *ngFor="let label of incomeLabels, let i=index" class="form-group">
+          <div class="inflex">
+              <label class="form-switch">
+                  <input formControlName="{{label.label}}" name="{{label.label}}" id="{{label.label}}" [checked]="label.value"  type="checkbox">
+                  <i class="form-icon"></i> {{label.label}}
+                </label>
+                <span class="chip">
+                    <a (click)="deleteIncomeLabel(label.label)" class="btn btn-clear" aria-label="Close" role="button"></a>
+                  </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <!-- <label class="form-label text-center" for="addIncome">Add Income Default: </label>
+          <input formControlName="addIncome" class="form-input form-inline" type="text" placeholder="Add Income"> -->
+        </div>
+      </form>
+      <form class="somespace" [formGroup]="incomeAddPresetForm">
+      <div class="input-group"><span class="input-group-addon">Add Income Default</span>
+        <input formControlName="incomeAdd" class="form-input" type="text" placeholder="Add Income Default">
+        <button [disabled]="!allowAddIncomePresetSubmit()" (click)="addIncomeDefault()" class="btn btn-primary input-group-btn">+</button>
+      </div>
+    </form>
+
+      <div class="panel-footer">
+        <button *ngIf="loadingIncome" class="btn btn-primary loading"></button>
+        <button *ngIf="!loadingIncome" [disabled]="!allowIncomePresetSubmit()" (click)="setIncomeDefaults()" class="btn btn-primary btn-block">Save</button>
+      </div>
+    </div>
+
+
+
+  </div>

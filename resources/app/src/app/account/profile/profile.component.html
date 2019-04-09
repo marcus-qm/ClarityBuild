@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="columns">
+    <div class="column col-sm-12 col-md-6">
+      <div class="divider text-center" data-content="Person Information"></div>
+      <form [formGroup]="personalInformationForm">
+        <div [ngClass]="{'has-error': personalInformationForm.controls['first_name'].invalid && personalInformationForm.touched && personalInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="first_name">First Name:</label>
+          <input class="form-input" [ngClass]="{'is-success': personalInformationForm.controls['first_name'].valid && personalInformationForm.touched && personalInformationForm.dirty}" formControlName="first_name" type="text" id="first_name" placeholder="First Name">
+        </div>
+        <div [ngClass]="{'has-error': personalInformationForm.controls['last_name'].invalid && personalInformationForm.touched && personalInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="last_name">Last Name:</label>
+          <input class="form-input" [ngClass]="{'is-success': personalInformationForm.controls['last_name'].valid && personalInformationForm.touched && personalInformationForm.dirty}" formControlName="last_name" type="text" id="last_name" placeholder="Last Name">
+        </div>
+        <div [ngClass]="{'has-error': personalInformationForm.controls['date_of_birth'].invalid && personalInformationForm.touched && personalInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="date_of_birth">Date of Birth: </label>
+          <input class="form-input" [value]="personalInformationForm.controls['date_of_birth'].value" [ngClass]="{'is-success': personalInformationForm.controls['date_of_birth'].valid && personalInformationForm.touched && personalInformationForm.dirty}" formControlName="date_of_birth" type="date" id="date_of_birth" placeholder="Date of Birth">
+        </div>
+        <div [ngClass]="{'has-error': personalInformationForm.controls['email'].invalid  && personalInformationForm.touched && personalInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="email">E-Mail: </label>
+          <input class="form-input" [ngClass]="{'is-success': personalInformationForm.controls['email'].valid && personalInformationForm.touched && personalInformationForm.dirty}" type="text" formControlName="email" id="email" placeholder="E-Mail">
+        </div>
+      </form>
+
+      <div class="panel-footer">
+          <button *ngIf="loadingUserEntry" class="btn btn-primary btn-block loading"></button>
+          <button *ngIf="!loadingUserEntry"  (click)="setPersonalData()" [disabled]="!allowPersonalSubmit()" class="btn btn-primary btn-block">Save</button>
+
+        </div>
+
+      <!-- <div class="panel-footer">
+          <button (click)="setPersonalData()" [disabled]="!allowPersonalSubmit()" class="btn btn-primary btn-block">Save</button>
+        </div> -->
+  
+    </div>
+    <!-- <div class="divider-vert" data-content="AND"></div> -->
+    <div class="column col-sm-12 col-md-6">
+      <div class="divider text-center" data-content="Business Information"></div>
+
+      <form [formGroup]="businessInformationForm">
+        <div [ngClass]="{'has-error': businessInformationForm.controls['business_name'].invalid && businessInformationForm.touched && businessInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="business_name">Business Name:</label>
+          <input class="form-input" [ngClass]="{'is-success': businessInformationForm.controls['business_name'].valid && businessInformationForm.touched && businessInformationForm.dirty}" formControlName="business_name" type="text" id="business_name" placeholder="Business Name">
+        </div>
+        <div [ngClass]="{'has-error': businessInformationForm.controls['business_region'].invalid && businessInformationForm.touched && businessInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="business_region">Business Region:</label>
+          <input class="form-input" [ngClass]="{'is-success': businessInformationForm.controls['business_region'].valid && businessInformationForm.touched && businessInformationForm.dirty}" formControlName="business_region" type="text" id="business_region" placeholder="Business Region">
+        </div>
+        <div [ngClass]="{'has-error': businessInformationForm.controls['business_city'].invalid && businessInformationForm.touched && businessInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="business_city">Business City: </label>
+          <input class="form-input" [ngClass]="{'is-success': businessInformationForm.controls['business_city'].valid && businessInformationForm.touched && businessInformationForm.dirty}" formControlName="business_city" type="text" id="business_city" placeholder="Business City">
+        </div>
+        <div [ngClass]="{'has-error': businessInformationForm.controls['year_established'].invalid && businessInformationForm.touched && businessInformationForm.dirty}" class="form-group">
+          <label class="form-label" for="year_established">Established on: </label>
+          <input class="form-input" [value]="businessInformationForm.controls['year_established'].value" [ngClass]="{'is-success': businessInformationForm.controls['year_established'].valid && businessInformationForm.touched && businessInformationForm.dirty}" formControlName="year_established" type="date" id="year_established" placeholder="Established On">
+        </div>
+      </form>
+
+      <div class="panel-footer">
+          <button *ngIf="loadingBusinessEntry" class="btn btn-primary btn-block loading"></button>
+          <button *ngIf="!loadingBusinessEntry"  (click)="setBusinessData()" [disabled]="!allowBusinessSubmit()" class="btn btn-primary btn-block">Save</button>
+
+        </div>
+      <!-- <div class="panel-footer">
+          <button (click)="setBusinessData()" [disabled]="!allowBusinessSubmit()" class="btn btn-primary btn-block">Save</button>
+        </div> -->
+    </div>
+
+
+
+  </div>

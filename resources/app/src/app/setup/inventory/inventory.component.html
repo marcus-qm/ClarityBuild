@@ -1,0 +1,62 @@
+<div class="columns">
+    <div class="column col-sm-6">
+      <div class="divider text-center" data-content="Inventory List"></div>
+      <div *ngIf="inventoryList.length">
+          <div *ngFor="let inventoryItem of inventoryList" class="tile tile-centered">
+              <div class="tile-icon">
+                <div class="example-tile-icon">
+                  <i class="icon icon-check centered"></i>
+                </div>
+              </div>
+              <div class="tile-content">
+                <div class="tile-title">{{inventoryItem.label}}</div>
+                <small class="tile-subtitle text-gray">Cost · GHC{{inventoryItem.cost}} || Price · GHC{{inventoryItem.price}}</small>
+              </div>
+              <div class="tile-action">
+                <button class="btn btn-link">
+                  <i class="icon icon-more-vert"></i>
+                </button>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <button *ngIf="updatingInventory" class="btn btn-primary loading"></button>
+              <button *ngIf="!updatingInventory" (click)="moveToEmployees()" class="btn btn-primary btn-block">Next!</button>
+            </div>
+          </div>
+          
+    </div>
+    <!-- </div> -->
+    <!-- <div class="divider-vert" data-content="AND"></div> -->
+    <div class="column col-sm-6">
+      <div class="divider text-center" data-content="Add Inventory"></div>
+  
+      <form [formGroup]="addInventoryForm">
+          <div [ngClass]="{'has-error': addInventoryForm.controls['label'].invalid && addInventoryForm.controls['label'].dirty && addInventoryForm.controls['label'].touched}"
+          class="form-group">
+          <label class="form-label" for="label">Name:</label>
+          <input class="form-input" 
+            formControlName="label" type="text" id="label" placeholder="Inventory Name">
+        </div>
+        <div [ngClass]="{'has-error': addInventoryForm.controls['cost'].invalid && addInventoryForm.controls['cost'].dirty && addInventoryForm.controls['cost'].touched}"
+          class="form-group">
+          <label class="form-label" for="position">Cost:</label>
+          <input class="form-input"
+            formControlName="cost" type="number" id="cost" placeholder="Cost">
+        </div>
+        <div [ngClass]="{'has-error': addInventoryForm.controls['price'].invalid} && addInventoryForm.controls['price'].dirty && addInventoryForm.controls['price'].touched"
+          class="form-group">
+          <label class="form-label" for="price">Price: </label>
+          <input class="form-input" 
+            formControlName="price" type="number" id="price" placeholder="Price">
+        </div>
+
+        <div class="form-group">
+          <div class="column col-sm-4">
+            <button (click)="saveInventory()" [disabled]="!addInventoryForm.valid" class="btn btn-block">Save Inventory</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  
+  </div>

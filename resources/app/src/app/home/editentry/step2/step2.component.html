@@ -1,0 +1,67 @@
+<div *ngIf="add">
+<div class="modal-title h5 text-center">Creating new Entry...</div>
+  <!-- split in half -->
+  <div class="columns">
+    <div class="column col-6">
+      <div class="divider text-center" data-content="Incomes"></div>
+      <form [formGroup]="addFormIncome">
+        <div *ngIf="incomePresetsExist">
+          <div *ngFor="let preset of add_income_preset_labels, let i=index" class="form-group">
+            <label class="form-label text-center" for="input-example-{{i}}">{{preset.label}}</label>
+            <input formControlName="{{preset.label}}" class="form-input form-inline" type="number" required id="income-{{i}}"
+              placeholder="{{preset.label}}">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="column col-6">
+      <div class="divider text-center" data-content="Expenses"></div>
+      <form [formGroup]="addFormExpenses">
+        <div *ngIf="expensePresetsExist">
+          <div *ngFor="let preset of add_expense_preset_labels, let i=index" class="form-group">
+            <label class="form-label text-center" for="input-example-{{i}}">{{preset.label}}</label>
+            <input formControlName="{{preset.label}}" class="form-input form-inline" type="number" required id="expense-{{i}}"
+              placeholder="{{preset.label}}">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div style="margin-top: 25px" class="column mx-auto col-sm-6">
+      <button [disabled]="!allowOverviewForAdd()" (click)="moveToOverview()" class="btn btn-primary btn-block">Go!</button>
+    </div>
+  </div>
+  </div>
+
+  <div *ngIf="edit">
+      <div class="modal-title h5 text-center">Modifying Past Entry...</div>
+      <div class="columns">
+          <div class="column col-6">
+            <div class="divider text-center" data-content="Incomes"></div>
+            <form [formGroup]="editFormIncome">
+              <!-- <div *ngIf="incomePresetsExist"> -->
+                <div *ngFor="let preset of edit_income_preset_labels, let i=index" class="form-group">
+                  <label class="form-label text-center" for="input-example-{{i}}">{{preset.label}}</label>
+                  <input formControlName="{{preset.label}}" class="form-input form-inline" type="number" required id="edit-income-{{i}}"
+                    placeholder="{{preset.label}}">
+                </div>
+              <!-- </div> -->
+            </form>
+          </div>
+          <div class="column col-6">
+            <div class="divider text-center" data-content="Expenses"></div>
+            <form [formGroup]="editFormExpenses">
+              <!-- <div *ngIf="expensePresetsExist"> -->
+                <div *ngFor="let preset of edit_expense_preset_labels, let i=index" class="form-group">
+                  <label class="form-label text-center" for="input-example-{{i}}">{{preset.label}}</label>
+                  <input formControlName="{{preset.label}}" class="form-input form-inline" type="number" required id="edit-expense-{{i}}"
+                    placeholder="{{preset.label}}">
+                </div>
+              <!-- </div> -->
+            </form>
+          </div>
+          <div style="margin-top: 25px" class="column mx-auto col-sm-6">
+            <button  [disabled]="!allowOverviewForEdit()" (click)="moveToOverview()" class="btn btn-primary btn-block">Go!</button>
+          </div>
+        </div>
+
+  </div>

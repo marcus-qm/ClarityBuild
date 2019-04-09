@@ -1,0 +1,278 @@
+<div class="container">
+  <div style="margin-top: 25px" class="columns">
+    <div class="column col-6">
+      <!-- Top Expenses Card Begin -->
+      <!-- Accordions content -->
+      <div class="card">
+        <div class="card-image">
+          <!-- <img src="img/osx-el-capitan.jpg" class="img-responsive"> -->
+        </div>
+        <div class="card-header">
+          <div class="card-title h5">Top Expenses</div>
+          <div class="card-subtitle text-gray">Showing Top Expenses YTD</div>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="topExpenses.length > 0; else elseTemplate">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Expense Item</th>
+                  <th>Total Cost</th>
+                  <th>View Breakdown</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let expenseItem of topExpenses;" class="active">
+                  <td>{{expenseItem[0]}}</td>
+                  <td>GHC {{expenseItem[1]}}</td>
+                  <td><button (click)="openTEChart(expenseItem[0])" class="btn btn-block btn-primary">View</button></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <div style="width: 100%" class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-people"></i>
+              </div>
+              <p class="empty-title h5">You have no Expenses</p>
+              <!-- <p class="empty-subtitle">Click the button to add an Employee.</p> -->
+              <!-- <div class="empty-action">
+                        <button (click)="addEmployee()" class="btn btn-primary">Add Employee</button>
+                      </div> -->
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <!-- Top Expenses Card End -->
+    <!-- Cost Projections Begin-->
+    <div class="column col-6">
+      <!-- Top Expenses Card Begin -->
+      <!-- Accordions content -->
+      <div class="card">
+        <div class="card-image">
+          <!-- <img src="img/osx-el-capitan.jpg" class="img-responsive"> -->
+        </div>
+        <div class="card-header">
+          <div class="card-title h5">Employee Cost Projections</div>
+          <div class="card-subtitle text-gray">Forecast Employee Costs</div>
+        </div>
+        <div class="card-body">
+          <!-- figure something out -->
+          <ng-container *ngIf="employees.length > 0; else elseTemplate3">
+            <div style="display: flex;justify-content: space-between;" class="form-group">
+              <strong>Employee Name</strong>
+              <!-- <strong>Unit Cost</strong> -->
+              <strong>Salary Adjustment</strong>
+            </div>
+            <div *ngFor="let employee of employeesDisplay; let i = index">
+              <div style="display: flex;justify-content: space-between; margin-bottom: 10px" class="form-group">
+                <label class="form-inline">
+                  <button class="tooltip btn btn-link" [attr.data-tooltip]="'Employee Salary: GHC' + employee.salary.unit + '/' + employee.salary.time_interval">{{employee.name
+                    | titlecase}}</button>
+                </label>
+                <select style="width: 25%" (change)="calculateAdjustment($event, employee)" class="form-select">
+                  <option value="0.25">0.25x</option>
+                  <option value="0.5">0.50x</option>
+                  <option selected="selected" value="1">1x</option>
+                  <option value="1.5">1.5x</option>
+                  <option value="2">2x</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top: 15px" class="tile">
+              <div class="tile-content">
+                <div class="columns">
+                  <div class="column col-6">
+                    <label class="form-checkbox">Change Pay Period</label>
+                    <select (change)="changeBasis($event)" class="form-select">
+                      <option value="Hourly">Hourly</option>
+                      <option value="Daily">Daily</option>
+                      <option selected="selected" value="Weekly">Weekly</option>
+                      <option value="Monthly">Monthly</option>
+                      <option value="Yearly">Yearly</option>
+                    </select>
+                  </div>
+                  <div style="display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;" class="col-6">
+                    <p style="margin-bottom: 0px" class="tile-title text-bold"><i>Estimated</i> Salary Total ({{basis}}): </p>
+                    <h4 class="tile-subtitle"><strong>{{basisTally | currency:'GHS':'symbol':'0.2-2'}}</strong></h4>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #elseTemplate3>
+            <div style="width: 100%; margin-top: 15px" class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-people"></i>
+              </div>
+              <p class="empty-title h5">You have no Employees</p>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+    <!-- Cost Projections End -->
+  </div>
+  <div style="margin-top: 15px" class="columns">
+    <div class="column col-6">
+      <div class="card">
+        <div class="card-image">
+          <!-- <img src="img/osx-el-capitan.jpg" class="img-responsive"> -->
+        </div>
+        <div class="card-header">
+          <div class="card-title h5">Expenses Breakdown per day</div>
+          <div class="card-subtitle text-gray">Showing Expense Breakdown</div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="expenseBreakdownForm">
+            <div [ngClass]="{'has-error': expenseBreakdownForm?.controls['entry_date'].invalid && expenseBreakdownForm?.dirty && expenseBreakdownForm?.touched}"
+              class="form-group">
+              <label class="form-label" for="entry_date">Enter Entry Date: </label>
+              <input class="form-input" [ngClass]="{'is-success': expenseBreakdownForm?.controls['entry_date'].invalid  && expenseBreakdownForm?.dirty && expenseBreakdownForm?.touched}"
+                formControlName="entry_date" type="date" id="entry_date" placeholder="Pick A Date">
+              <p class="form-input-hint">Entry must be for a date between today and January 1st of <strong>{{year}}</strong>.</p>
+            </div>
+            <div class="columns">
+              <div class="column mx-auto col-sm-6">
+                <button *ngIf="!searching" [disabled]="allowSearchForEntry()" (click)="searchForEntry()" class="btn btn-primary btn-block">Go!</button>
+                <button *ngIf="searching" class="btn btn-primary loading btn-block"></button>
+              </div>
+            </div>
+          </form>
+          <ng-container *ngIf="this.entry; else elseTemplate">
+            <div style="margin-top: 15px">
+              <app-chart [chartType]="chartTypeEB" [id]="myChart2id" [labels]="ebLabels" [data]="ebValues" [chartLabel]="myChart2label"></app-chart>
+              <div class="columns">
+                <div class="column mx-auto col-6">
+                  <div class="tile">
+
+                    <div class="tile-content">
+                      <p class="tile-title text-bold">Total For Entry Date: </p>
+                      <p class="tile-subtitle"><strong>Date: </strong>{{entryDetails.date}}</p>
+                      <p class="tile-subtitle"><strong>Total: </strong>{{entryDetails.value |
+                        currency:'GHS':'symbol':'0.2-2'}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <div style="width: 100%; margin-top: 15px" class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-people"></i>
+              </div>
+              <p class="empty-title h5">{{message}}</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="column col-6">
+      <div class="card">
+        <div class="card-image">
+          <!-- <img src="img/osx-el-capitan.jpg" class="img-responsive"> -->
+        </div>
+        <div class="card-header">
+          <div class="card-title h5">Inventory Calulator</div>
+          <div class="card-subtitle text-gray">Showing Inventory Cost Estimates</div>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="inventory.length > 0; else elseTemplate2">
+            <div style="margin-top: 15px">
+              <form [formGroup]="inventoryCalculatoryForm">
+                <div style="display: flex;justify-content: space-between;" class="form-group">
+                  <strong>Inventory Item</strong>
+                  <!-- <strong>Unit Cost</strong> -->
+                  <strong>Forecast Quantity</strong>
+                </div>
+                <div *ngFor="let item of inventory; let i = index">
+                  <div style="display: flex;justify-content: space-between; margin-bottom: 10px" class="form-group">
+                    <label class="form-inline">
+                      <button class="tooltip btn btn-link" [attr.data-tooltip]="'Unit Cost: GHC' + item.cost">{{item.label
+                        | titlecase}}</button>
+                    </label>
+                    <input style="width: 25%" class="form-input form-inline" formControlName="{{item.label}}" type="number"
+                      min="0" name="{{item.label}}">
+                  </div>
+                </div>
+
+              </form>
+              <div style="margin-top: 15px" class="tile">
+                <div class="tile-content">
+                  <p style="margin-bottom: 0px" class="tile-title text-bold">Forecast Total: </p>
+                  <h5 class="tile-subtitle"><strong>{{forecasttally | currency:'GHS':'symbol':'0.2-2'}}</strong></h5>
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+          <ng-template #elseTemplate2>
+            <div style="width: 100%; margin-top: 15px" class="empty">
+              <div class="empty-icon">
+                <i class="icon icon-people"></i>
+              </div>
+              <p class="empty-title h5">You have no Inventory</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': showTEModal}" class="modal" id="modal-id">
+  <a (click)="toggleTEModal()" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a (click)="toggleTEModal()" class="btn btn-clear float-right" aria-label="Close"></a>
+      <!-- <div class="modal-title h5">Modal title</div> -->
+    </div>
+    <div class="modal-body">
+      <div *ngIf="showTEModal" class="content">
+        <app-chart [chartType]="chartTypeTE" [id]="myChartid" [labels]="xEntryLabels" [data]="xEntryValues"
+          [chartLabel]="myChart1label"></app-chart>
+        <div style="margin-top: 15px" class="panel">
+          <div class="panel-header">
+            <div class="panel-title h6">Metrics</div>
+          </div>
+          <div class="panel-body">
+            <div class="columns">
+              <div class="column col-6">
+                <div class="tile">
+
+                  <div class="tile-content">
+                    <p class="tile-title text-bold">Highest Entry</p>
+                    <p class="tile-subtitle"><strong>Date: </strong>{{maxEntry.date}}</p>
+                    <p class="tile-subtitle"><strong>Entry Value: </strong>{{maxEntry.value |
+                      currency:'GHS':'symbol':'0.2-2'}}</p>
+                  </div>
+                </div>
+
+              </div>
+              <div class="column col-6">
+                <div class="tile">
+                  <div class="tile-content">
+                    <p class="tile-title text-bold">Lowest Entry</p>
+                    <p class="tile-subtitle"><strong>Date: </strong>{{minEntry.date}}</p>
+                    <p class="tile-subtitle"><strong>Entry Value: </strong>{{minEntry.value |
+                      currency:'GHS':'symbol':'0.2-2'}}</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

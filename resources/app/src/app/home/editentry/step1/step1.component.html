@@ -1,0 +1,18 @@
+
+<div class="modal-title h5 text-center">Pick a Date...</div>
+<form [formGroup]="editEntryForm">
+    <div [ngClass]="{'has-error': editEntryForm?.controls['entry_date'].invalid && editEntryForm?.dirty && editEntryForm?.touched}"
+        class="form-group">
+        <label class="form-label" for="entry_date">Enter Entry Date: </label>
+        <input class="form-input" [ngClass]="{'is-success': editEntryForm?.controls['entry_date'].invalid  && editEntryForm?.dirty && editEntryForm?.touched}"
+            formControlName="entry_date" type="date" id="entry_date" placeholder="Pick A Date">
+        <p class="form-input-hint">Entry must be for a date between yesterday and January 1st of <strong>{{year}}</strong>.</p>
+    </div>
+    <div class="columns">
+        <div class="column mx-auto col-sm-6">
+            <button *ngIf="!searching" [disabled]="allowSearchForEntry()" (click)="searchForEntry()"
+                class="btn btn-primary btn-block">Go!</button>
+            <button *ngIf="searching" class="btn btn-primary loading btn-block"></button>
+        </div>
+    </div>
+</form>
